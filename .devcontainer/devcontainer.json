@@ -1,0 +1,18 @@
+{
+	"name": "syslog-ng",
+
+	"image": "balabit/syslog-ng",
+
+	// Uncomment the next line if you want to publish any ports.
+	"appPort": [ "50514:514", "50601:601", "56514:6514", "56022:22" ],
+
+	// set hostname on running container
+	"runArgs": [ "--hostname", "syslog-ng", "--cap-add=NET_BIND_SERVICE", "--cap-add=NET_BROADCAST", "--cap-add=NET_RAW", "--cap-add=DAC_READ_SEARCH", "--cap-add=DAC_OVERRIDE", "--cap-add=CHOWN", "--cap-add=SYSLOG" ],
+
+	// Uncomment the next line to run commands after the container is created.
+	// In this step, install openssh-server (for better/convenient remote access), screen, and net-tools, also set user vscode with password PASSWORD_FOR_USER_vscode for ssh
+	"postCreateCommand": "/workspaces/syslog-ng/postCreateCommand.sh",
+
+	// Uncomment the next line to run commands after the container is attatched.
+	"postStartCommand": "cp /workspaces/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf; screen -wipe; screen -s /bin/bash -dmS code; service ssh restart; service syslog-ng restart",
+}
